@@ -39,7 +39,9 @@ export const SuggestionList: FC<SuggestionListProps> = ({
   };
 
   return (
-    <ScrollView style={styles.suggestionContainer}>
+    <ScrollView
+      style={styles.suggestionContainer}
+      keyboardShouldPersistTaps={'handled'}>
       {suggestions.map((suggestion, index) => {
         const currSuggestion = suggestion.title;
         const secondaryText = suggestion?.description;
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.6,
     shadowRadius: 2,
-    // elevation: 5,
+    elevation: 5,
     padding: 12,
   },
   suggestionRow: {
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     borderColor: '#f2f0ef',
     borderBottomWidth: 1,
     paddingVertical: 8,
+    backgroundColor: 'white',
   },
   markerIcon: {
     height: 12,

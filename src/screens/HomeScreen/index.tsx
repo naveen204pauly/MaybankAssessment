@@ -17,17 +17,21 @@ import {
 import useDebounce from '../../hooks/useDebounce';
 import {DEFAULT_COORDINATE} from '../../constants/common.constants';
 import {CustomMapView} from '../../components/CustomMapView';
+import {shallowEqual} from 'react-redux';
 
 export const HomeScreen = () => {
   const [query, setQuery] = useState('');
-  const [placeId, setPlaceId] = useState('');
+  const [selecedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [coordinate, setCoordinate] = useState(DEFAULT_COORDINATE);
 
-  const loading = useAppSelector(selectLoading);
-  const error = useAppSelector(selectError);
-  const searchResult = useAppSelector(selectSearchResults(query));
-  const geometry = useAppSelector(selectGeometry(placeId));
-  const searchHistory = useAppSelector(selectSearchHistory);
+  const loading = useAppSelector(selectLoading, shallowEqual);
+  const error = useAppSelector(selectError, shallowEqual);
+  const searchResult = useAppSelector(selectSearchResults(query), shallowEqual);
+  const geometry = useAppSelector(
+    selectGeometry(selecedPlace?.id ?? ''),
+    shallowEqual,
+  );
+  const searchHistory = useAppSelector(selectSearchHistory, shallowEqual);
   const dispatch = useAppDispatch();
 
   //Side Effects
@@ -47,15 +51,16 @@ export const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (placeId && !geometry) {
-      dispatch(fetchPlaceDetail(placeId));
+    if (selecedPlace && !geometry) {
+      dispatch(fetchPlaceDetail(selecedPlace));
     } else if (geometry) {
       updateCoordinates(geometry.location.lat, geometry.location.lng);
     }
-  }, [dispatch, geometry, placeId, updateCoordinates]);
+  }, [dispatch, geometry, selecedPlace, updateCoordinates]);
 
   const onSelectPlace = useCallback((place: Place) => {
-    setPlaceId(place.id);
+    setSelectedPlace(place);
+    setQuery(place.title);
   }, []);
 
   //Event Handlers

@@ -10,6 +10,7 @@ import {
 import {
   getAutocompleteResults,
   getPlaceDetailsResults,
+  Place,
 } from '../../../services/placeApi';
 
 export const fetchPlaces =
@@ -28,11 +29,11 @@ export const fetchPlaces =
     }
   };
 export const fetchPlaceDetail =
-  (placeId: string) => async (dispatch: AppDispatch) => {
+  (place: Place) => async (dispatch: AppDispatch) => {
     dispatch(fetchPlaceDetailStart());
     try {
-      const geoemtry = await getPlaceDetailsResults(placeId);
-      dispatch(fetchPlaceDetailSuccess({placeId, geoemtry}));
+      const geoemtry = await getPlaceDetailsResults(place.id);
+      dispatch(fetchPlaceDetailSuccess({place, geoemtry}));
     } catch (error: any) {
       dispatch(fetchPlaceDetailFailure(error.message));
     }

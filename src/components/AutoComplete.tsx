@@ -43,8 +43,8 @@ export const AutoCompleteInput: FC<AutoCompleteInputProps> = ({
 
   const onSelectSuggestion = useCallback(
     (place: Place) => {
-      textInputRef.current?.blur();
       onSelect(place);
+      textInputRef.current?.blur();
     },
     [onSelect],
   );

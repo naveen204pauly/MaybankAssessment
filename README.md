@@ -15,7 +15,10 @@ This project is a React Native application that integrates Google Place Autocomp
 
 ## Project demo
 
-![Demo GIF](./ios_demo.gif)
+<div style="display: flex; justify-content: space-between;">
+  <img src="./ios_demo.gif" width="45%">
+  <img src="./android_demo.gif" width="45%">
+</div>
 
 ## Technologies Used
 

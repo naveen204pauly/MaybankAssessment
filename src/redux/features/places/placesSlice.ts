@@ -39,8 +39,7 @@ const placesSlice = createSlice({
     ) {
       const {query, results} = action.payload;
       state.loading = false;
-      state.cachedPlaces[query] = results; // Cache results
-      state.searchHistory.unshift(query);
+      state.cachedPlaces[query] = results; // Cached results
     },
     fetchPlacesFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -52,11 +51,12 @@ const placesSlice = createSlice({
     },
     fetchPlaceDetailSuccess(
       state,
-      action: PayloadAction<{placeId: string; geoemtry: Geometry}>,
+      action: PayloadAction<{place: Place; geoemtry: Geometry}>,
     ) {
-      const {placeId, geoemtry} = action.payload;
+      const {place, geoemtry} = action.payload;
       state.loading = false;
-      state.geometry[placeId] = geoemtry;
+      state.geometry[place.id] = geoemtry;
+      state.searchHistory.unshift(place.title); // to push it in the begining of the list
     },
     fetchPlaceDetailFailure(state, action: PayloadAction<string>) {
       state.loading = false;
